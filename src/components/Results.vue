@@ -1,19 +1,14 @@
 <template>
   <div class="my-container">
     <div class="search-container" id="searchContainer">
-      <h1 class="search-title" @click="goHome">Luxirty Search</h1>
+      <h1 class="search-title" @click="goHome">Search</h1>
       <div class="gcse-searchbox"></div>
     </div>
     <div class="search-result-zone">
       <div class="gcse-searchresults" data-linkTarget="_blank" data-refinementStyle="link"></div>
     </div>
     <footer>
-      <p>
-        &copy; Create by <a href="https://luxirty.com/posts/luxirty-search/" target="_blank">Luxirty</a> with &hearts; |
-        Open Source on <a href="https://github.com/KoriIku/luxiry-search" target="_blank">
-          GitHub
-        </a>
-      </p>
+     
     </footer>
   </div>
 </template>
@@ -38,7 +33,7 @@ export default {
     },
     setTitle() {
       var inputContent = document.getElementsByName('search')[0].value;
-      document.title = inputContent + ' - Luxirty Search'
+      document.title = inputContent + ' - Search'
     },
     goHome() {
       // 使用 window.location.href 跳转到根路径
