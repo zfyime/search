@@ -4,7 +4,7 @@
       <a href="" target="_blank">关于</a>
     </div>
     <div class="logo">
-    Search
+    ZFY Search
     </div>
     <div class="search-container">
       <div class="gcse-searchbox-only" data-resultsUrl="search"></div>
