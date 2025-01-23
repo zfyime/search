@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <div class="about">
-      <a href="" target="_blank">关于</a>
     </div>
     <div class="logo">
     ZFY Search
