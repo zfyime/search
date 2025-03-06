@@ -1,7 +1,7 @@
 <template>
   <div class="my-container">
     <div class="search-container" id="searchContainer">
-      <h1 class="search-title" @click="goHome">My Search</h1>
+      <h1 class="search-title" @click="goHome">Ferris Search</h1>
       <div class="gcse-searchbox"></div>
     </div>
     <div class="search-result-zone">
@@ -33,7 +33,7 @@ export default {
     },
     setTitle() {
       var inputContent = document.getElementsByName('search')[0].value;
-      document.title = inputContent + ' - My Search'
+      document.title = inputContent + ' - Ferris Search'
     },
     goHome() {
       // 使用 window.location.href 跳转到根路径

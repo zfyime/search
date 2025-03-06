@@ -3,7 +3,7 @@
     <div class="about">
     </div>
     <div class="logo">
-    My Search
+    Ferris Search
     </div>
     <div class="search-container">
       <div class="gcse-searchbox-only" data-resultsUrl="search"></div>
