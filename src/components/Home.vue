@@ -17,12 +17,14 @@
 </template>
 
 <script>
+import { loadGoogleCSE } from '@/utils/loadGoogleCSE';
+
 export default {
+  name: 'HomePage',
   mounted() {
-    const script = document.createElement('script');
-    script.src = `https://cse.google.com/cse.js?cx=${import.meta.env.VITE_GOOGLE_CSE_CX}`;
-    script.async = true;
-    document.body.appendChild(script);
+    loadGoogleCSE().catch((error) => {
+      console.error('加载 Google CSE 脚本失败', error);
+    });
   }
 };
 </script>

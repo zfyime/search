@@ -28,3 +28,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+/.gemini
+/.claude
+/.github
+/.cursor

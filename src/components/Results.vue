@@ -5,6 +5,7 @@
       <div class="gcse-searchbox"></div>
     </div>
     <div class="search-result-zone">
+      <div v-if="loading" class="loading" role="status">加载中...</div>
       <div class="gcse-searchresults" data-linkTarget="_blank" data-refinementStyle="link"></div>
     </div>
     <footer>
@@ -14,52 +15,128 @@
 </template>
 
 <script>
+import { loadGoogleCSE } from '@/utils/loadGoogleCSE';
+
 export default {
   name: 'SearchPage',
-  props: ['query'],
-  mounted() {
-    this.loadGoogleCSE();
-    this.setupResultsRenderedCallback();  // 注册渲染结果回调函数
+  props: {
+    query: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      loading: true,
+      cleanupRenderedCallback: null
+    };
+  },
+  async mounted() {
+    this.setupResultsRenderedCallback();
+
     if (!this.query) {
+      this.loading = false;
       this.goHome();
+      return;
+    }
+
+    try {
+      await loadGoogleCSE();
+    } catch (error) {
+      console.error('加载 Google CSE 脚本失败', error);
+    }
+
+    this.loading = false;
+    this.sanitizeResultLinks();
+    this.setTitle();
+  },
+  beforeUnmount() {
+    if (typeof this.cleanupRenderedCallback === 'function') {
+      this.cleanupRenderedCallback();
+    }
+  },
+  watch: {
+    query(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.loading = true;
+      }
+      this.setTitle();
     }
   },
   methods: {
-    loadGoogleCSE() {
-      const script = document.createElement('script');
-      script.src = `https://cse.google.com/cse.js?cx=${import.meta.env.VITE_GOOGLE_CSE_CX}`;
-      script.async = true;
-      document.head.appendChild(script);
-    },
     setTitle() {
-      var inputContent = document.getElementsByName('search')[0].value;
-      document.title = inputContent + ' - Ferris Search'
+      try {
+        const searchInput = document.getElementsByName('search')[0];
+        const rawValue = searchInput?.value || this.query || '';
+        const trimmed = rawValue.trim();
+        document.title = trimmed ? `${trimmed} - Ferris Search` : 'Ferris Search';
+      } catch (error) {
+        console.error('设置页面标题失败', error);
+      }
     },
     goHome() {
-      // 使用 window.location.href 跳转到根路径
-      window.location.href = '/';
+      if (this.$router) {
+        const target = { name: 'Home' };
+        if (this.$route?.name === 'Home') {
+          return;
+        }
+        this.$router.push(target).catch((err) => {
+          if (err && err.name !== 'NavigationDuplicated') {
+            console.error('跳转首页失败', err);
+          }
+        });
+      } else {
+        window.location.href = '/';
+      }
     },
-    setupResultsRenderedCallback() {
-      // 定义一个渲染回调函数，用于移除不需要的属性
-      const myWebResultsRenderedCallback = () => {
+    sanitizeResultLinks() {
+      try {
         const links = document.querySelectorAll('a.gs-title');
-
         links.forEach((anchor) => {
-          // 移除 'data-cturl' 和 'data-ctorig' 属性
           anchor.removeAttribute('data-cturl');
           anchor.removeAttribute('data-ctorig');
         });
-
-        // 设置搜索标题，多页签时更好切换
+      } catch (error) {
+        console.error('清理搜索结果链接属性失败', error);
+      }
+    },
+    setupResultsRenderedCallback() {
+      const myWebResultsRenderedCallback = () => {
+        this.loading = false;
+        this.sanitizeResultLinks();
         this.setTitle();
       };
 
-      // 将回调注册到 Google Custom Search 引擎对象
-      window.__gcse || (window.__gcse = {});
+      if (typeof window === 'undefined') {
+        return;
+      }
+
+      window.__gcse = window.__gcse || {};
+      const searchCallbacks = window.__gcse.searchCallbacks || {};
+      const webCallbacks = searchCallbacks.web || {};
+      const previousRendered = webCallbacks.rendered;
+
       window.__gcse.searchCallbacks = {
+        ...searchCallbacks,
         web: {
-          rendered: myWebResultsRenderedCallback,
-        },
+          ...webCallbacks,
+          rendered: myWebResultsRenderedCallback
+        }
+      };
+
+      this.cleanupRenderedCallback = () => {
+        if (typeof window === 'undefined' || !window.__gcse) {
+          return;
+        }
+        const currentSearchCallbacks = window.__gcse.searchCallbacks || {};
+        const currentWebCallbacks = currentSearchCallbacks.web || {};
+        window.__gcse.searchCallbacks = {
+          ...currentSearchCallbacks,
+          web: {
+            ...currentWebCallbacks,
+            rendered: previousRendered
+          }
+        };
       };
     }
   }
@@ -125,6 +202,12 @@ export default {
 .search-result-zone {
   flex-grow: 1;
   /* 让搜索结果区占据剩余空间 */
+}
+
+.loading {
+  margin-left: 28px;
+  color: var(--uv-styles-color-text-default);
+  font-size: 14px;
 }
 
 /* Footer styles */
