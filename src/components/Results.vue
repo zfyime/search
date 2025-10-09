@@ -1,7 +1,7 @@
 <template>
   <div class="my-container">
     <div class="search-container" id="searchContainer">
-      <h1 class="search-title" @click="goHome">Ferris Search</h1>
+      <h1 class="search-title" @click="goHome">{{ SITE_NAME }}</h1>
       <div class="gcse-searchbox"></div>
     </div>
     <div class="search-result-zone">
@@ -9,13 +9,14 @@
       <div class="gcse-searchresults" data-linkTarget="_blank" data-refinementStyle="link"></div>
     </div>
     <footer>
-     
+
     </footer>
   </div>
 </template>
 
 <script>
 import { loadGoogleCSE } from '@/utils/loadGoogleCSE';
+import { SITE_NAME } from '@/config/constants';
 
 export default {
   name: 'SearchPage',
@@ -28,7 +29,8 @@ export default {
   data() {
     return {
       loading: true,
-      cleanupRenderedCallback: null
+      cleanupRenderedCallback: null,
+      SITE_NAME
     };
   },
   async mounted() {
@@ -69,7 +71,7 @@ export default {
         const searchInput = document.getElementsByName('search')[0];
         const rawValue = searchInput?.value || this.query || '';
         const trimmed = rawValue.trim();
-        document.title = trimmed ? `${trimmed} - Ferris Search` : 'Ferris Search';
+        document.title = trimmed ? `${trimmed} - ${SITE_NAME}` : SITE_NAME;
       } catch (error) {
         console.error('设置页面标题失败', error);
       }

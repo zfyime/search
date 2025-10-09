@@ -3,28 +3,80 @@
     <div class="about">
     </div>
     <div class="logo">
-    Ferris Search
+    {{ SITE_NAME }}
     </div>
-    <div class="search-container">
+    <div class="search-container" :key="searchBoxKey">
       <div class="gcse-searchbox-only" data-resultsUrl="search"></div>
     </div>
-    
+
     <!-- 添加页脚 -->
     <footer>
-     
+
     </footer>
   </div>
 </template>
 
 <script>
 import { loadGoogleCSE } from '@/utils/loadGoogleCSE';
+import { SITE_NAME } from '@/config/constants';
 
 export default {
   name: 'HomePage',
+  data() {
+    return {
+      searchBoxKey: 0,
+      SITE_NAME
+    };
+  },
   mounted() {
-    loadGoogleCSE().catch((error) => {
-      console.error('加载 Google CSE 脚本失败', error);
-    });
+    // 重置页面标题为首页标题
+    document.title = SITE_NAME;
+
+    // 每次挂载时增加 key，强制重新渲染
+    this.searchBoxKey++;
+
+    loadGoogleCSE()
+      .then(() => {
+        // 等待 Vue 更新 DOM
+        this.$nextTick(() => {
+          // 延迟一小段时间，确保 CSE 能够扫描到新的 DOM 元素
+          setTimeout(() => {
+            if (window.google && window.google.search && window.google.search.cse && window.google.search.cse.element) {
+              try {
+                // 触发 CSE 重新扫描页面
+                window.google.search.cse.element.go();
+              } catch (error) {
+                // 忽略错误，CSE 可能已经自动渲染了
+              }
+            }
+
+            // 清空搜索框内容
+            this.clearSearchBox();
+          }, 100);
+        });
+      })
+      .catch((error) => {
+        console.error('加载 Google CSE 脚本失败', error);
+      });
+  },
+  methods: {
+    clearSearchBox() {
+      // 查找并清空 Google CSE 搜索框
+      try {
+        const searchInput = document.querySelector('.gsc-input input.gsc-input');
+        if (searchInput) {
+          searchInput.value = '';
+        }
+
+        // 清空所有可能的搜索输入框
+        const allSearchInputs = document.querySelectorAll('input[name="search"]');
+        allSearchInputs.forEach(input => {
+          input.value = '';
+        });
+      } catch (error) {
+        console.warn('清空搜索框失败', error);
+      }
+    }
   }
 };
 </script>
