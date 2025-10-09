@@ -1,0 +1,61 @@
+/* Google CSE 筛选/排序/标签样式 */
+
+/* 上方区域容器 */
+.gsc-above-wrapper-area {
+  padding: 0 0 0 0 !important;
+  border: none !important;
+}
+
+.gsc-above-wrapper-area-container {
+  width: 652px !important;
+  margin-left: 218px;
+}
+
+/* 针对小屏幕的样式 */
+@media (max-width: 600px) {
+  .gsc-above-wrapper-area-container {
+    width: auto !important;
+    margin-left: 5px;
+  }
+}
+
+/* Refinements 区域 */
+.gsc-refinementsArea {
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--divider-color) !important;
+  border-radius: 0 !important;
+}
+
+.gsc-refinementsGradient {
+  display: none;
+}
+
+.gsc-refinementBlock {
+  margin-left: 218px;
+  background-color: transparent !important;
+}
+
+/* 针对小屏幕的样式 */
+@media (max-width: 600px) {
+  .gsc-refinementBlock {
+    margin-left: 5px;
+  }
+}
+
+/* Refinement 标题 */
+.gsc-refinementHeader {
+  background-color: transparent !important;
+}
+
+.gsc-refinementHeader.gsc-inline-block {
+  font-size: 16px;
+}
+
+/* 排序框美化 */
+.gsc-selected-option-container.gsc-inline-block {
+  background-color: transparent !important;
+  background-image: none;
+  border: none !important;
+  box-shadow: none;
+}
