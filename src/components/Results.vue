@@ -5,11 +5,14 @@
       <div class="gcse-searchbox"></div>
     </div>
     <div class="search-result-zone">
-      <div v-if="loading" class="loading" role="status">加载中...</div>
+      <div v-if="loading" class="loading" role="status">
+        <div class="loading-spinner"></div>
+        <span class="loading-text">搜索中...</span>
+      </div>
       <div class="gcse-searchresults" data-linkTarget="_blank" data-refinementStyle="link"></div>
     </div>
     <footer>
-
+      2025 &copy; {{ SITE_NAME }}. All rights reserved.
     </footer>
   </div>
 </template>
@@ -150,8 +153,6 @@ export default {
   flex-direction: column;
   /* 让子元素垂直排列 */
   min-height: 100vh;
-  /* 让容器占满整个视窗高度 */
-  max-width: var(--center-width);
   min-width: 320px;
   box-sizing: border-box;
 }
@@ -190,6 +191,7 @@ export default {
     font-size: 20px;
     margin-bottom: 10px;
     margin-right: 0;
+    cursor: pointer;
   }
 }
 
@@ -207,8 +209,38 @@ export default {
 }
 
 .loading {
-  margin-left: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 60px;
   color: var(--uv-styles-color-text-default);
   font-size: 14px;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--uv-styles-color-outline);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loading-text {
+  color: var(--uv-styles-color-text-secondary);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 移动端加载样式 */
+@media (max-width: 600px) {
+  .loading {
+    margin-top: 40px;
+  }
 }
 </style>

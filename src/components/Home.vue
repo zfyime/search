@@ -11,7 +11,7 @@
 
     <!-- 添加页脚 -->
     <footer>
-
+      2025 &copy; {{ SITE_NAME }}. All rights reserved.
     </footer>
   </div>
 </template>
