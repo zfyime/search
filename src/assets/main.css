@@ -16,18 +16,6 @@ a,
 
 @media (hover: hover) {}
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    width: 100%;
-  }
-}
-
 /* Google CSE 全局控制样式 */
 .gsc-control-cse {
   font-family: inherit !important;

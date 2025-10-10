@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ferris-search-v1';
+const CACHE_NAME = 'ferris-search-v2';
 const OFFLINE_FALLBACK = '/';
 const PRECACHE_URLS = ['/', '/search', '/favicon.ico'];
 
