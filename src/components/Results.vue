@@ -172,6 +172,7 @@ export default {
   margin-right: 20px;
   white-space: nowrap;
   user-select: none;
+  cursor: pointer;
   /* 防止标题文字被选中 */
 }
 

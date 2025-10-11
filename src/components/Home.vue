@@ -93,7 +93,7 @@ export default {
 .logo {
   position: absolute;
   top: 35vh; /* 从 30vh 增加到 35vh */
-  font-size: 48px;
+  font-size: 45px;
   font-weight: bold;
 }
 
