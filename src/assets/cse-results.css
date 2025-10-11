@@ -15,6 +15,7 @@
 
 /* 针对小屏幕的样式 */
 @media (max-width: 600px) {
+
   .gsc-results,
   .gsc-webResult {
     width: calc(100vw - 20px) !important;
@@ -34,7 +35,7 @@
 .gs-title b {
   font-family: var(--fr-font-family), var(--fr-font-basefont) !important;
   -webkit-text-stroke: var(--fr-font-stroke) !important;
-  font-size: 1.35rem !important;
+  font-size: 1.28rem !important;
   line-height: 28px !important;
   font-weight: 400 !important;
   margin-bottom: 5px !important;
