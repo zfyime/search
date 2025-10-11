@@ -13,23 +13,6 @@
   margin-left: 218px;
 }
 
-/* 针对小屏幕的样式 */
-@media (max-width: 600px) {
-
-  .gsc-results,
-  .gsc-webResult {
-    width: calc(100vw - 20px) !important;
-    margin-left: 10px;
-  }
-
-  /* 移动端标题字体调整 */
-  .gs-title,
-  .gs-title b {
-    font-size: 1.1rem !important;
-    line-height: 24px !important;
-  }
-}
-
 /* 搜索结果标题 */
 .gs-webResult.gs-result a.gs-title:link,
 .gs-webResult.gs-result a.gs-title:link b,
@@ -101,4 +84,21 @@
 
 .gsc-results .gsc-cursor-box {
   margin: 5px !important;
+}
+
+/* 针对小屏幕的样式 */
+@media (max-width: 600px) {
+
+  .gsc-results,
+  .gsc-webResult {
+    width: calc(100vw - 20px) !important;
+    margin-left: 10px;
+  }
+
+  /* 移动端标题字体调整 */
+  .gs-title,
+  .gs-title b {
+    font-size: 1.1rem !important;
+    line-height: 24px !important;
+  }
 }

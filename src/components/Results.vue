@@ -189,7 +189,7 @@ export default {
   }
 
   .search-title {
-    font-size: 20px;
+    font-size: 28px;
     margin-bottom: 10px;
     margin-right: 0;
     cursor: pointer;
